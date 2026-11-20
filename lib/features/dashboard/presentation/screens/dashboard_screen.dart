@@ -4,21 +4,47 @@ import 'package:go_router/go_router.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/theme/app_typography.dart';
+import '../../../../core/utils/extensions.dart';
 import '../../../../routing/route_names.dart';
 import '../../../../shared/widgets/app_button.dart';
 import '../../../../shared/widgets/app_card.dart';
 import '../../../../shared/widgets/avatar_widget.dart';
 import '../../../auth/presentation/controllers/auth_controller.dart';
+import '../../../subjects/presentation/controllers/subjects_controller.dart';
+import '../../../subjects/presentation/widgets/subject_icon_picker.dart';
+import '../../../timer/presentation/controllers/study_timer_controller.dart';
 
 /// Primary Study Dashboard offering one-tap session initiation, streak metrics,
-/// daily goal rings, and active peer presence.
+/// daily goal progress, and live peer visibility.
 class DashboardScreen extends ConsumerWidget {
   const DashboardScreen({super.key});
+
+  Color _hexToColor(String hex) {
+    final buffer = StringBuffer();
+    if (hex.length == 7) buffer.write('ff');
+    buffer.write(hex.replaceFirst('#', ''));
+    try {
+      return Color(int.parse(buffer.toString(), radix: 16));
+    } catch (_) {
+      return AppColors.primary;
+    }
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
     final user = ref.watch(authControllerProvider).value;
+    final timerState = ref.watch(studyTimerControllerProvider);
+    final subjectsAsync = ref.watch(subjectsControllerProvider);
+
+    final subjects = subjectsAsync.value ?? [];
+    final totalTodaySeconds = timerState.todayTotal.inSeconds + (timerState.isRunning ? timerState.elapsed.inSeconds : 0);
+    final todayDuration = Duration(seconds: totalTodaySeconds);
+
+    // Default daily target 4 hours (14400s)
+    const targetSeconds = 14400;
+    final progressRatio = (totalTodaySeconds / targetSeconds).clamp(0.0, 1.0);
+    final progressPercent = (progressRatio * 100).toInt();
 
     return Scaffold(
       appBar: AppBar(
@@ -38,9 +64,10 @@ class DashboardScreen extends ConsumerWidget {
                   style: AppTypography.titleMedium,
                 ),
                 Text(
-                  'Ready to conquer today’s goals?',
+                  timerState.isRunning ? '🔥 Focus session in progress!' : 'Ready to conquer today’s goals?',
                   style: AppTypography.bodySmall.copyWith(
-                    color: theme.colorScheme.onSurfaceVariant,
+                    color: timerState.isRunning ? AppColors.success : theme.colorScheme.onSurfaceVariant,
+                    fontWeight: timerState.isRunning ? FontWeight.bold : FontWeight.normal,
                   ),
                 ),
               ],
@@ -66,21 +93,33 @@ class DashboardScreen extends ConsumerWidget {
             // Hero Focus Card with Big Timer and Start Action
             AppCard(
               padding: AppSpacing.insetAll20,
-              backgroundColor: theme.colorScheme.primary.withOpacity(0.08),
-              borderColor: theme.colorScheme.primary.withOpacity(0.2),
+              backgroundColor: timerState.isRunning
+                  ? AppColors.primary.withOpacity(0.12)
+                  : theme.colorScheme.surface,
+              borderColor: timerState.isRunning
+                  ? AppColors.primary
+                  : theme.colorScheme.outline,
               hasShadow: true,
               child: Column(
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        'TODAY’S FOCUS TIME',
-                        style: AppTypography.labelMedium.copyWith(
-                          color: theme.colorScheme.primary,
-                          fontWeight: FontWeight.w700,
-                          letterSpacing: 1.0,
-                        ),
+                      Row(
+                        children: [
+                          if (timerState.isRunning) ...[
+                            const CircleAvatar(radius: 4, backgroundColor: AppColors.success),
+                            const SizedBox(width: 8),
+                          ],
+                          Text(
+                            timerState.isRunning ? 'CURRENT SESSION' : 'TODAY’S FOCUS TIME',
+                            style: AppTypography.labelMedium.copyWith(
+                              color: theme.colorScheme.primary,
+                              fontWeight: FontWeight.w700,
+                              letterSpacing: 1.0,
+                            ),
+                          ),
+                        ],
                       ),
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
@@ -105,25 +144,35 @@ class DashboardScreen extends ConsumerWidget {
                       ),
                     ],
                   ),
-                  const SizedBox(height: AppSpacing.space24),
+                  const SizedBox(height: AppSpacing.space20),
                   Text(
-                    '00:00:00',
+                    timerState.isRunning ? timerState.elapsed.toHms() : todayDuration.toHms(),
                     style: AppTypography.displayLarge.copyWith(
-                      color: theme.colorScheme.onSurface,
+                      color: timerState.isRunning ? theme.colorScheme.primary : theme.colorScheme.onSurface,
                       letterSpacing: -1.0,
                     ),
                   ),
                   const SizedBox(height: AppSpacing.space8),
                   Text(
-                    'Daily Target: 04h 00m (0% completed)',
+                    'Daily Target: 04h 00m ($progressPercent% completed)',
                     style: AppTypography.bodyMedium.copyWith(
                       color: theme.colorScheme.onSurfaceVariant,
                     ),
                   ),
+                  const SizedBox(height: AppSpacing.space16),
+                  LinearProgressIndicator(
+                    value: progressRatio,
+                    backgroundColor: theme.colorScheme.surfaceVariant,
+                    valueColor: AlwaysStoppedAnimation<Color>(
+                      progressRatio >= 1.0 ? AppColors.accent : theme.colorScheme.primary,
+                    ),
+                    minHeight: 8,
+                    borderRadius: BorderRadius.circular(4),
+                  ),
                   const SizedBox(height: AppSpacing.space24),
                   AppButton(
-                    text: 'Start Study Session',
-                    icon: Icons.play_arrow_rounded,
+                    text: timerState.isRunning ? 'Return to Active Timer' : 'Start Study Session',
+                    icon: timerState.isRunning ? Icons.open_in_new_rounded : Icons.play_arrow_rounded,
                     onPressed: () => context.go(RouteNames.timer),
                   ),
                 ],
@@ -140,52 +189,83 @@ class DashboardScreen extends ConsumerWidget {
                 ),
                 TextButton(
                   onPressed: () => context.go(RouteNames.subjects),
-                  child: const Text('Manage'),
+                  child: const Text('Manage All'),
                 ),
               ],
             ),
             const SizedBox(height: AppSpacing.space8),
-            Row(
-              children: [
-                Expanded(
-                  child: AppCard(
+            if (subjects.isEmpty)
+              AppCard(
+                padding: AppSpacing.insetAll16,
+                child: Row(
+                  children: [
+                    const Icon(Icons.menu_book_rounded, color: AppColors.primary, size: 28),
+                    const SizedBox(width: 16),
+                    Expanded(
+                      child: Text('No subjects added yet. Tap to create one.', style: AppTypography.bodyMedium),
+                    ),
+                    OutlinedButton(
+                      onPressed: () => context.go(RouteNames.subjects),
+                      child: const Text('Add'),
+                    ),
+                  ],
+                ),
+              )
+            else
+              GridView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 12,
+                  mainAxisSpacing: 12,
+                  childAspectRatio: 1.45,
+                ),
+                itemCount: subjects.take(4).length,
+                itemBuilder: (context, index) {
+                  final subj = subjects[index];
+                  final color = _hexToColor(subj.colorHex);
+                  final icon = SubjectIconPicker.availableIcons[subj.iconName] ?? Icons.menu_book_rounded;
+
+                  return AppCard(
                     padding: AppSpacing.insetAll16,
+                    onTap: () {
+                      ref.read(studyTimerControllerProvider.notifier).selectSubject(subj.id);
+                      context.go(RouteNames.timer);
+                    },
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const CircleAvatar(
-                          radius: 14,
-                          backgroundColor: AppColors.primary,
-                          child: Icon(Icons.code, size: 16, color: Colors.white),
+                        CircleAvatar(
+                          radius: 16,
+                          backgroundColor: color.withOpacity(0.18),
+                          child: Icon(icon, size: 18, color: color),
                         ),
-                        const SizedBox(height: 12),
-                        Text('Computer Science', style: AppTypography.titleSmall),
-                        Text('0h 00m today', style: AppTypography.bodySmall),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              subj.name,
+                              style: AppTypography.titleSmall.copyWith(fontWeight: FontWeight.bold),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            const SizedBox(height: 2),
+                            Text(
+                              'Target: ${subj.targetMinutesDaily}m/day',
+                              style: AppTypography.bodySmall.copyWith(
+                                color: theme.colorScheme.onSurfaceVariant,
+                                fontSize: 11,
+                              ),
+                            ),
+                          ],
+                        ),
                       ],
                     ),
-                  ),
-                ),
-                const SizedBox(width: AppSpacing.space12),
-                Expanded(
-                  child: AppCard(
-                    padding: AppSpacing.insetAll16,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const CircleAvatar(
-                          radius: 14,
-                          backgroundColor: AppColors.secondary,
-                          child: Icon(Icons.calculate, size: 16, color: Colors.white),
-                        ),
-                        const SizedBox(height: 12),
-                        Text('Mathematics', style: AppTypography.titleSmall),
-                        Text('0h 00m today', style: AppTypography.bodySmall),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            ),
+                  );
+                },
+              ),
             const SizedBox(height: AppSpacing.space24),
             // Social Accountability Strip
             Text(
@@ -203,9 +283,9 @@ class DashboardScreen extends ConsumerWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Join Live Study Rooms', style: AppTypography.titleSmall),
+                        Text('Join Live Study Rooms', style: AppTypography.titleSmall.copyWith(fontWeight: FontWeight.bold)),
                         Text(
-                          'Connect with peers, compare ranks, and fly higher together.',
+                          'Connect with peers, compare daily ranks, and study together.',
                           style: AppTypography.bodySmall,
                         ),
                       ],
