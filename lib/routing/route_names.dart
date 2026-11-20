@@ -19,4 +19,5 @@ abstract class RouteNames {
   // Advanced Tools
   static const String pomodoro = '/pomodoro';
   static const String aiAssistant = '/ai-assistant';
+  static const String appBlocking = '/app-blocking';
 }

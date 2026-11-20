@@ -9,6 +9,7 @@ import '../features/auth/presentation/screens/onboarding_screen.dart';
 import '../features/auth/presentation/screens/profile_setup_screen.dart';
 import '../features/auth/presentation/screens/register_screen.dart';
 import '../features/auth/presentation/screens/splash_screen.dart';
+import '../features/blocking/presentation/screens/app_blocking_screen.dart';
 import '../features/dashboard/presentation/screens/dashboard_screen.dart';
 import '../features/groups/presentation/screens/groups_screen.dart';
 import '../features/pomodoro/presentation/screens/pomodoro_screen.dart';
@@ -93,6 +94,10 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: RouteNames.aiAssistant,
         builder: (context, state) => const AiAssistantScreen(),
+      ),
+      GoRoute(
+        path: RouteNames.appBlocking,
+        builder: (context, state) => const AppBlockingScreen(),
       ),
       // Shell Route for persistent Navigation Bar / Rail
       ShellRoute(

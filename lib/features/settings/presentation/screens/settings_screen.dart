@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import '../../../../core/constants/app_constants.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/theme/app_typography.dart';
+import '../../../../routing/route_names.dart';
 import '../../../auth/presentation/controllers/auth_controller.dart';
 
 /// App preferences: Theme toggle, notification toggles, blocking rules, account info.
@@ -33,19 +35,28 @@ class SettingsScreen extends ConsumerWidget {
             },
           ),
           const Divider(),
-          Text('FOCUS ENFORCEMENT', style: AppTypography.labelSmall.copyWith(color: theme.colorScheme.onSurfaceVariant)),
+          Text('PRODUCTIVITY TOOLS', style: AppTypography.labelSmall.copyWith(color: theme.colorScheme.onSurfaceVariant)),
           const SizedBox(height: 8),
-          SwitchListTile(
-            title: const Text('App Blocking Shield'),
-            subtitle: const Text('Block distracting apps automatically during active study sessions'),
-            value: true,
-            onChanged: (val) {},
+          ListTile(
+            leading: const Icon(Icons.timer_outlined),
+            title: const Text('Pomodoro Mode (25/5, 50/10, Deep Work)'),
+            subtitle: const Text('Switch from Stopwatch to interval cycles'),
+            trailing: const Icon(Icons.arrow_forward_ios_rounded, size: 16),
+            onTap: () => context.push(RouteNames.pomodoro),
           ),
-          SwitchListTile(
-            title: const Text('Keep Screen Awake'),
-            subtitle: const Text('Prevent display from sleeping during timer mode'),
-            value: true,
-            onChanged: (val) {},
+          ListTile(
+            leading: const Icon(Icons.auto_awesome_outlined),
+            title: const Text('AI Study Assistant'),
+            subtitle: const Text('Summarize notes, explain concepts, generate quizzes'),
+            trailing: const Icon(Icons.arrow_forward_ios_rounded, size: 16),
+            onTap: () => context.push(RouteNames.aiAssistant),
+          ),
+          ListTile(
+            leading: const Icon(Icons.shield_outlined),
+            title: const Text('Focus Shield & App Blocking'),
+            subtitle: const Text('Configure distracting app blocklist for study sessions'),
+            trailing: const Icon(Icons.arrow_forward_ios_rounded, size: 16),
+            onTap: () => context.push(RouteNames.appBlocking),
           ),
           const Divider(),
           Text('ACCOUNT', style: AppTypography.labelSmall.copyWith(color: theme.colorScheme.onSurfaceVariant)),
@@ -53,7 +64,7 @@ class SettingsScreen extends ConsumerWidget {
           ListTile(
             title: const Text('Edit Profile'),
             trailing: const Icon(Icons.arrow_forward_ios_rounded, size: 16),
-            onTap: () {},
+            onTap: () => context.push(RouteNames.profileSetup),
           ),
           ListTile(
             title: const Text('Sign Out'),
