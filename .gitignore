@@ -1,0 +1,60 @@
+# Miscellaneous
+*.class
+*.log
+*.pyc
+*.swp
+.DS_Store
+.atom/
+.buildlog/
+.history
+.svn/
+migrate_working_dir/
+
+# IntelliJ related
+*.iml
+*.ipr
+*.iws
+.idea/
+
+# Visual Studio Code
+.vscode/
+
+# Flutter/Dart/Pub related
+**/doc/api/
+**/ios/Flutter/.last_build_id
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.pub-cache/
+.pub/
+/build/
+*.g.dart
+*.freezed.dart
+
+# Symbol processing
+app.*.symbols
+
+# Obfuscation maps
+app.*.map.json
+
+# Android Studio will create this folder
+.gradle/
+local.properties
+
+# Android release keys & keystores
+*.keystore
+*.jks
+
+# Secrets and environment files
+.env
+.env.production
+.env.staging
+*.pem
+*.key
+
+# Windows Desktop build artifacts
+windows/flutter/ephemeral/
+*.vcxproj
+*.vcxproj.filters
+*.vcxproj.user
