@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import '../features/ai_assistant/presentation/screens/ai_assistant_screen.dart';
 import '../features/auth/presentation/controllers/auth_controller.dart';
 import '../features/auth/presentation/screens/forgot_password_screen.dart';
 import '../features/auth/presentation/screens/login_screen.dart';
@@ -10,6 +11,7 @@ import '../features/auth/presentation/screens/register_screen.dart';
 import '../features/auth/presentation/screens/splash_screen.dart';
 import '../features/dashboard/presentation/screens/dashboard_screen.dart';
 import '../features/groups/presentation/screens/groups_screen.dart';
+import '../features/pomodoro/presentation/screens/pomodoro_screen.dart';
 import '../features/profile/presentation/screens/profile_screen.dart';
 import '../features/settings/presentation/screens/settings_screen.dart';
 import '../features/statistics/presentation/screens/statistics_screen.dart';
@@ -83,6 +85,14 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: RouteNames.profile,
         builder: (context, state) => const ProfileScreen(),
+      ),
+      GoRoute(
+        path: RouteNames.pomodoro,
+        builder: (context, state) => const PomodoroScreen(),
+      ),
+      GoRoute(
+        path: RouteNames.aiAssistant,
+        builder: (context, state) => const AiAssistantScreen(),
       ),
       // Shell Route for persistent Navigation Bar / Rail
       ShellRoute(

@@ -15,4 +15,8 @@ abstract class RouteNames {
   static const String groups = '/groups';
   static const String profile = '/profile';
   static const String settings = '/settings';
+
+  // Advanced Tools
+  static const String pomodoro = '/pomodoro';
+  static const String aiAssistant = '/ai-assistant';
 }
