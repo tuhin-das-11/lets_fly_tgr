@@ -343,10 +343,10 @@ SOFTWARE.
 
 | | |
 |:---|:---|
-| **Project Lead** | Your Name |
-| **Email** | [your.email@example.com](mailto:your.email@example.com) |
-| **GitHub** | [@your-username](https://github.com/your-username) |
-| **Project Link** | [github.com/your-username/lets-fly-tgr](https://github.com/your-username/lets-fly-tgr) |
+| **Project Lead** | Tuhin Das |
+| **Email** | [dastuhin01019@gmail.com](mailto:dastuhin01019@gmail.com) |
+| **GitHub** | [@tuhin-das-11](https://github.com/tuhin-das-11) |
+| **Project Link** | [github.com/tuhin-das-11/lets-fly-tgr](https://github.com/tuhin-das-11/lets-fly-tgr) |
 
 ---
 
