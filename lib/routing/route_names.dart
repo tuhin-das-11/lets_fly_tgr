@@ -16,8 +16,12 @@ abstract class RouteNames {
   static const String profile = '/profile';
   static const String settings = '/settings';
 
-  // Advanced Tools
+  // Advanced Tools & Features
   static const String pomodoro = '/pomodoro';
   static const String aiAssistant = '/ai-assistant';
   static const String appBlocking = '/app-blocking';
+  static const String notionNotebook = '/notion-notebook';
+  static const String leaderboard = '/leaderboard';
+  static const String achievements = '/achievements';
+  static const String friends = '/friends';
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import '../features/achievements/presentation/screens/achievements_screen.dart';
 import '../features/ai_assistant/presentation/screens/ai_assistant_screen.dart';
 import '../features/auth/presentation/controllers/auth_controller.dart';
 import '../features/auth/presentation/screens/forgot_password_screen.dart';
@@ -11,7 +12,10 @@ import '../features/auth/presentation/screens/register_screen.dart';
 import '../features/auth/presentation/screens/splash_screen.dart';
 import '../features/blocking/presentation/screens/app_blocking_screen.dart';
 import '../features/dashboard/presentation/screens/dashboard_screen.dart';
+import '../features/friends/presentation/screens/friends_screen.dart';
 import '../features/groups/presentation/screens/groups_screen.dart';
+import '../features/leaderboard/presentation/screens/leaderboard_screen.dart';
+import '../features/notion/presentation/screens/notion_notebook_screen.dart';
 import '../features/pomodoro/presentation/screens/pomodoro_screen.dart';
 import '../features/profile/presentation/screens/profile_screen.dart';
 import '../features/settings/presentation/screens/settings_screen.dart';
@@ -98,6 +102,22 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: RouteNames.appBlocking,
         builder: (context, state) => const AppBlockingScreen(),
+      ),
+      GoRoute(
+        path: RouteNames.notionNotebook,
+        builder: (context, state) => const NotionNotebookScreen(),
+      ),
+      GoRoute(
+        path: RouteNames.leaderboard,
+        builder: (context, state) => const LeaderboardScreen(),
+      ),
+      GoRoute(
+        path: RouteNames.achievements,
+        builder: (context, state) => const AchievementsScreen(),
+      ),
+      GoRoute(
+        path: RouteNames.friends,
+        builder: (context, state) => const FriendsScreen(),
       ),
       // Shell Route for persistent Navigation Bar / Rail
       ShellRoute(

@@ -76,6 +76,19 @@ class AppScaffold extends StatelessWidget {
                   ],
                 ),
               ),
+              trailing: Expanded(
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 20),
+                    child: IconButton(
+                      icon: const Icon(Icons.leaderboard_outlined),
+                      tooltip: 'Leaderboard',
+                      onPressed: () => context.push(RouteNames.leaderboard),
+                    ),
+                  ),
+                ),
+              ),
               destinations: const [
                 NavigationRailDestination(
                   icon: Icon(Icons.dashboard_outlined),
