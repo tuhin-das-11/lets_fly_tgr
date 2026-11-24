@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../../../../core/constants/app_assets.dart';
 import '../../../../core/constants/app_constants.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/theme/app_typography.dart';
@@ -10,12 +11,12 @@ import '../../../../shared/widgets/app_button.dart';
 class OnboardingItem {
   final String title;
   final String subtitle;
-  final IconData icon;
+  final String assetPath;
 
   const OnboardingItem({
     required this.title,
     required this.subtitle,
-    required this.icon,
+    required this.assetPath,
   });
 }
 
@@ -36,19 +37,19 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       title: 'Study Together',
       subtitle:
           'Join virtual study rooms and stay accountable with peer visibility and live group sessions.',
-      icon: Icons.groups_rounded,
+      assetPath: AppAssets.onboardingDesk,
     ),
     OnboardingItem(
       title: 'Focus Better',
       subtitle:
           'Shield against digital distractions with proactive app blocking and server-synced timers across Android and Windows.',
-      icon: Icons.shield_rounded,
+      assetPath: AppAssets.icFocusMode,
     ),
     OnboardingItem(
       title: 'Fly Higher',
       subtitle:
           'Gain deep productivity insights, track daily streaks, and accelerate learning with AI note syntheses.',
-      icon: Icons.rocket_launch_rounded,
+      assetPath: AppAssets.logo,
     ),
   ];
 
@@ -88,17 +89,25 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Container(
-                            width: 140,
-                            height: 140,
-                            decoration: BoxDecoration(
-                              color: theme.colorScheme.primaryContainer,
-                              shape: BoxShape.circle,
-                            ),
-                            child: Icon(
-                              item.icon,
-                              size: 64,
-                              color: theme.colorScheme.primary,
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(24),
+                            child: Image.asset(
+                              item.assetPath,
+                              width: index == 0 ? 190 : 130,
+                              height: index == 0 ? 150 : 130,
+                              fit: BoxFit.contain,
+                              errorBuilder: (_, __, ___) => Container(
+                                width: 140,
+                                height: 140,
+                                decoration: BoxDecoration(
+                                  color: theme.colorScheme.primaryContainer,
+                                  shape: BoxShape.circle,
+                                ),
+                                child: const Icon(
+                                  Icons.flight_takeoff_rounded,
+                                  size: 64,
+                                ),
+                              ),
                             ),
                           ),
                           const SizedBox(height: AppSpacing.space40),

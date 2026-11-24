@@ -1,8 +1,10 @@
 <div align="center">
 
-<!-- PROJECT LOGO -->
-<!-- Replace with your actual logo -->
-<img src="assets\images\logo.png" alt="LET'S FLY TGR Logo" width="160" height="160">
+<img src="assets/images/banner.png" alt="LET'S FLY TGR Banner" width="100%">
+
+<br/><br/>
+
+<img src="assets/images/logo.png" alt="LET'S FLY TGR Logo" width="140" height="140">
 
 # ✈️ LET'S FLY TGR
 
