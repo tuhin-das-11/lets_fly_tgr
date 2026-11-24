@@ -171,7 +171,7 @@ LET'S FLY TGR follows a **clean architecture** pattern with clear separation of 
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/your-username/lets-fly-tgr.git
+git clone https://github.com/tuhin-das-11/lets-fly-tgr.git
 cd lets-fly-tgr
 
 # 2. Install dependencies
@@ -352,7 +352,7 @@ SOFTWARE.
 
 <div align="center">
 
-**Built with ❤️ and ☕ by tuhin & udita using Flutter**
+**Built with ❤️ and ☕ by Tuhin Das using Flutter**
 
 *If this project helps you study better, give it a ⭐!*
 

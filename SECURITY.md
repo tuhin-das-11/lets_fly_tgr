@@ -474,7 +474,7 @@ If you discover a security vulnerability in LET'S FLY TGR, **please report it re
 
 **How to report:**
 
-1. **Email:** Send a detailed report to **[security@letsflyTGR.example.com]** (replace with actual contact).
+1. **Email:** Send a detailed report to **[dastuhin01019@gmail.com](mailto:dastuhin01019@gmail.com)**.
 2. **Subject line:** `[SECURITY] Brief description of the vulnerability`
 3. **Include:**
    - Description of the vulnerability

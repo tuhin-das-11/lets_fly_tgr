@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import '../../../../core/constants/app_assets.dart';
 import '../../../../core/constants/app_constants.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/theme/app_typography.dart';
@@ -105,9 +106,34 @@ class SettingsScreen extends ConsumerWidget {
           ),
           const SizedBox(height: AppSpacing.space32),
           Center(
-            child: Text(
-              '${AppConstants.appName} v${AppConstants.appVersion}',
-              style: AppTypography.bodySmall.copyWith(color: theme.colorScheme.onSurfaceVariant),
+            child: Column(
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(18),
+                  child: Image.asset(
+                    AppAssets.logo,
+                    width: 64,
+                    height: 64,
+                    fit: BoxFit.cover,
+                    errorBuilder: (_, __, ___) => const SizedBox.shrink(),
+                  ),
+                ),
+                const SizedBox(height: 12),
+                Text(
+                  '${AppConstants.appName} v${AppConstants.appVersion}',
+                  style: AppTypography.titleSmall.copyWith(fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  'Study Together. Focus Better. Fly Higher.',
+                  style: AppTypography.bodySmall.copyWith(color: theme.colorScheme.onSurfaceVariant),
+                ),
+                const SizedBox(height: 6),
+                Text(
+                  'Created by Tuhin Das (dastuhin01019@gmail.com)',
+                  style: AppTypography.labelSmall.copyWith(color: theme.colorScheme.onSurfaceVariant),
+                ),
+              ],
             ),
           ),
         ],
