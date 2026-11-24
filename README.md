@@ -2,7 +2,7 @@
 
 <!-- PROJECT LOGO -->
 <!-- Replace with your actual logo -->
-<img src="assets/images/logo.png" alt="LET'S FLY TGR Logo" width="160" height="160">
+<img src="assets\images\logo.png" alt="LET'S FLY TGR Logo" width="160" height="160">
 
 # ✈️ LET'S FLY TGR
 
@@ -171,8 +171,8 @@ LET'S FLY TGR follows a **clean architecture** pattern with clear separation of 
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/tuhin-das-11/lets-fly-tgr.git
-cd lets-fly-tgr
+git clone https://github.com/tuhin-das-11/lets_fly_tgr.git
+cd lets_fly_tgr
 
 # 2. Install dependencies
 flutter pub get
@@ -346,13 +346,13 @@ SOFTWARE.
 | **Project Lead** | Tuhin Das |
 | **Email** | [dastuhin01019@gmail.com](mailto:dastuhin01019@gmail.com) |
 | **GitHub** | [@tuhin-das-11](https://github.com/tuhin-das-11) |
-| **Project Link** | [github.com/tuhin-das-11/lets-fly-tgr](https://github.com/tuhin-das-11/lets-fly-tgr) |
+| **Project Link** | [github.com/tuhin-das-11/lets_fly_tgr](https://github.com/tuhin-das-11/lets_fly_tgr) |
 
 ---
 
 <div align="center">
 
-**Built with ❤️ and ☕ by Tuhin Das using Flutter**
+**Built with ❤️ and ☕ by tuhin & udita using Flutter**
 
 *If this project helps you study better, give it a ⭐!*
 
